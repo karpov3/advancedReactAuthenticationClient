@@ -3,12 +3,21 @@ import { Field, reduxForm } from 'redux-form'
 
 const validate = values => {
   const errors = {}
-  if (!values.username) {
-    errors.username = 'Required'
-  }
 
   if (values.password !== values.passwordConfirm) {
     errors.password = 'Mismatch password'
+  }
+
+  if (!values.email) {
+    errors.email = 'Required'
+  }
+
+  if (!values.password) {
+    errors.password = 'Required'
+  }
+
+  if (!values.passwordConfirm) {
+    errors.passwordConfirm = 'Required'
   }
 
   console.log(values);
@@ -25,10 +34,16 @@ const renderField = ({ input, label, type, meta: { touched, error } }) => (
   </div>
 )
 
+
+
+
 const SyncValidationForm = (props) => {
+
+
+
   const { handleSubmit, pristine, reset, submitting } = props
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit = {handleSubmit}>
       <Field name="email" type="text" component={renderField} label="Email"/>
       <Field name="password" type="password" component={renderField} label="Password"/>
       <Field name="passwordConfirm" type="password" component={renderField} label="Confirm password"/>
@@ -41,5 +56,6 @@ const SyncValidationForm = (props) => {
 
 export default reduxForm({
   form: 'signup',  // a unique identifier for this form
-  validate                 // <--- validation function given to redux-form
+  validate,
+  onSubmit: () => { console.log("Hello"); },                 // <--- validation function given to redux-form
 })(SyncValidationForm)

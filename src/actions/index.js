@@ -1,6 +1,7 @@
 import axios from 'axios';
 const ROOT_URL = 'http://localhost:3090';
-import { AUTH_USER } from './types';
+import { AUTH_USER,
+AUTH_ERROR } from './types';
 import { browserHistory } from 'react-router';
 
 
@@ -20,7 +21,12 @@ export function signInUser({email, password}) {
       .catch(() => {
 
       });
+  }
+}
 
-
+export function authError(error) {
+  return {
+    type: AUTH_ERROR,
+    payload: error
   }
 }

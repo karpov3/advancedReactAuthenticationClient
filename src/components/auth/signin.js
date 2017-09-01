@@ -9,7 +9,6 @@ class Signin extends Component {
     console.log(email, password);
     // Need to do something
 
-
     this.props.signInUser({ email, password });
   }
  fieldHelper(field){
@@ -19,6 +18,17 @@ class Signin extends Component {
       </div>
     );
   }
+
+renderAlert() {
+  if (this.props.errorMessage) {
+    return (
+      <div className="alert alert-danger">
+        <strong>Ooop!</strong>
+      </div>
+    );
+  }
+}
+
   render() {
     const { handleSubmit } = this.props;
     return (
@@ -31,12 +41,17 @@ class Signin extends Component {
           <label>Password:</label>
           <Field type="password" name="password" component={this.fieldHelper} />
         </div>
+        {this.renderAlert()}
         <button action="submit" className="btn btn-primary">Sign In</button>
       </form>
     );
   }
 }
 
+function mapStateToProps(state) {
+  return { errorMessage: state.auth.error };
+}
+
 
 const form = reduxForm({ form: 'signin' })(Signin)
-export default connect(null, actions)(form)
+export default connect(mapStateToProps, actions)(form)
